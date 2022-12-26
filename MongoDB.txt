@@ -1,0 +1,224 @@
+Please enter a MongoDB connection string (Default: mongodb://localhost/): mongosh
+mongosh
+Current Mongosh Log ID: 63a8c1f607d67ca91afd7838
+Connecting to:          mongodb://127.0.0.1:27017/mongosh?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+1.6.1
+Using MongoDB:          6.0.3
+Using Mongosh:          1.6.1
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2022-12-25T18:55:15.428+01:00: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+------
+   Enable MongoDB's free cloud-based monitoring service, which will then receive and display
+   metrics about your deployment (disk utilization, CPU, operation statistics, etc).
+
+   The monitoring data will be available on a MongoDB website with a unique URL accessible to you
+   and anyone you share the URL with. MongoDB may use this information to make product
+   improvements and to suggest MongoDB products and deployment options to you.
+
+   To enable free monitoring, run the following command: db.enableFreeMonitoring()
+   To permanently disable this reminder, run the following command: db.disableFreeMonitoring()
+------
+
+mongosh> use mongodb
+switched to db mongodb
+mongodb> db.createCollection("sky")
+{ ok: 1 }
+mongodb> db.sky.insert({Name:"Ben Lahmer", First_name: "Fares", Email: "fares@gmail.com", Age:26})
+DeprecationWarning: Collection.insert() is deprecated. Use insertOne, insertMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("63a8c33910bb08a7f8a4c35d") }
+}
+mongodb> db.sky.insert({Name:"Kefi", First_name: "Seif", Email: "Kefi@gmail.com", Age:15})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("63a8c39010bb08a7f8a4c35e") }
+}
+mongodb> db.sky.insert({Name:"Fatnassi", First name: "Sarra", Email: "sarra.f@gmail.com", Age:40})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:38)
+
+> 1 | db.sky.insert({Name:"Fatnassi", First name: "Sarra", Email: "sarra.f@gmail.com", Age:40})
+    |                                       ^
+  2 |
+
+mongodb> db.sky.insert({Name:"Fatnassi", First_name: "Sarra", Email: "sarra.f@gmail.com", Age:40})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("63a8c3e510bb08a7f8a4c35f") }
+}
+mongodb> db.sky.insert({Name:"Ben Yahia", First_name: "Rym", Age:4})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("63a8c41d10bb08a7f8a4c360") }
+}
+mongodb> db.sky.insert({Name:"Cherif", First_name: "Sami", Age:3})
+{
+  acknowledged: true,
+  insertedIds: { '0': ObjectId("63a8c45e10bb08a7f8a4c361") }
+}
+mongodb> db.sky.find(id:"63a8c33910bb08a7f8a4c35d")
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:14)
+
+> 1 | db.sky.find(id:"63a8c33910bb08a7f8a4c35d")
+    |               ^
+  2 |
+
+mongodb> db.sky.find(id="63a8c33910bb08a7f8a4c35d")
+MongoInvalidArgumentError: Query filter must be a plain object or ObjectId
+mongodb>
+(To exit, press Ctrl+C again or Ctrl+D or type .exit)
+mongodb> db.sky.find({"_id" : ObjectID("63a8c33910bb08a7f8a4c35d")})
+ReferenceError: ObjectID is not defined
+mongodb> db.sky.find()
+[
+  {
+    _id: ObjectId("63a8c33910bb08a7f8a4c35d"),
+    Name: 'Ben Lahmer',
+    First_name: 'Fares',
+    Email: 'fares@gmail.com',
+    Age: 26
+  },
+  {
+    _id: ObjectId("63a8c39010bb08a7f8a4c35e"),
+    Name: 'Kefi',
+    First_name: 'Seif',
+    Email: 'Kefi@gmail.com',
+    Age: 15
+  },
+  {
+    _id: ObjectId("63a8c3e510bb08a7f8a4c35f"),
+    Name: 'Fatnassi',
+    First_name: 'Sarra',
+    Email: 'sarra.f@gmail.com',
+    Age: 40
+  },
+  {
+    _id: ObjectId("63a8c41d10bb08a7f8a4c360"),
+    Name: 'Ben Yahia',
+    First_name: 'Rym',
+    Age: 4
+  },
+  {
+    _id: ObjectId("63a8c45e10bb08a7f8a4c361"),
+    Name: 'Cherif',
+    First_name: 'Sami',
+    Age: 3
+  }
+]
+mongodb> db.sky.find({ _id: ObjectId("63a8c33910bb08a7f8a4c35d")})
+[
+  {
+    _id: ObjectId("63a8c33910bb08a7f8a4c35d"),
+    Name: 'Ben Lahmer',
+    First_name: 'Fares',
+    Email: 'fares@gmail.com',
+    Age: 26
+  }
+]
+mongodb> db.sky.find({Age > 18})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:17)
+
+> 1 | db.sky.find({Age > 18})
+    |                  ^
+  2 |
+
+mongodb> db.sky.find({Age: {$gt: 18}})
+[
+  {
+    _id: ObjectId("63a8c33910bb08a7f8a4c35d"),
+    Name: 'Ben Lahmer',
+    First_name: 'Fares',
+    Email: 'fares@gmail.com',
+    Age: 26
+  },
+  {
+    _id: ObjectId("63a8c3e510bb08a7f8a4c35f"),
+    Name: 'Fatnassi',
+    First_name: 'Sarra',
+    Email: 'sarra.f@gmail.com',
+    Age: 40
+  }
+]
+mongodb> db.sky.find({Age: {$gt: 18}} && {Name:"ah"})
+
+mongodb> db.sky.find({Age: {$gt: 18}} && {'sky.Name':"ah"})
+
+mongodb> db.sky.find({Age: {$gt: 18}} && {Name: {$regex: "ah"}} )
+[
+  {
+    _id: ObjectId("63a8c33910bb08a7f8a4c35d"),
+    Name: 'Ben Lahmer',
+    First_name: 'Fares',
+    Email: 'fares@gmail.com',
+    Age: 26
+  },
+  {
+    _id: ObjectId("63a8c41d10bb08a7f8a4c360"),
+    Name: 'Ben Yahia',
+    First_name: 'Rym',
+    Age: 4
+  }
+]
+mongodb> db.sky.update({First_name:{"Anis"}})
+Uncaught:
+SyntaxError: Unexpected token (1:33)
+
+> 1 | db.sky.update({First_name:{"Anis"}})
+    |                                  ^
+  2 |
+
+mongodb> db.sky.update({Name:"Kefi"},{$set:{First_name:"Anis"}})
+DeprecationWarning: Collection.update() is deprecated. Use updateOne, updateMany, or bulkWrite.
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+mongodb> db.sky.remove({Age:{$lt:5})
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:26)
+
+> 1 | db.sky.remove({Age:{$lt:5})
+    |                           ^
+  2 |
+
+mongodb> db.sky.remove({Age:{$lt:5}})
+DeprecationWarning: Collection.remove() is deprecated. Use deleteOne, deleteMany, findOneAndDelete, or bulkWrite.
+{ acknowledged: true, deletedCount: 2 }
+mongodb> db.sky
+mongodb.sky
+mongodb> db.sky.find()
+[
+  {
+    _id: ObjectId("63a8c33910bb08a7f8a4c35d"),
+    Name: 'Ben Lahmer',
+    First_name: 'Fares',
+    Email: 'fares@gmail.com',
+    Age: 26
+  },
+  {
+    _id: ObjectId("63a8c39010bb08a7f8a4c35e"),
+    Name: 'Kefi',
+    First_name: 'Anis',
+    Email: 'Kefi@gmail.com',
+    Age: 15
+  },
+  {
+    _id: ObjectId("63a8c3e510bb08a7f8a4c35f"),
+    Name: 'Fatnassi',
+    First_name: 'Sarra',
+    Email: 'sarra.f@gmail.com',
+    Age: 40
+  }
+]
+mongodb> Display all the contacts with an age>18 and name containing "ah".Display all the contacts with an age>18 and name containing "ah".Display all the contacts with an age>18 and name containing "ah".
